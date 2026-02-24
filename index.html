@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenClaw DFY — Your Own 24/7 AI Employee</title>
+  <meta name="description" content="We build, install, and manage a fully autonomous AI assistant for your business. Connected to all your existing tools.">
+  <meta name="color-scheme" content="dark">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
+  <link href="https://api.fontshare.com/v2/css?f[]=clash-display@700,600,500&f[]=satoshi@400,500,700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #050810;
+      --bg-surface: #0a0f1a;
+      --bg-elevated: #111827;
+      --coral-bright: #ff4d4d;
+      --coral-mid: #e63946;
+      --coral-dark: #991b1b;
+      --cyan-bright: #00e5cc;
+      --cyan-mid: #14b8a6;
+      --cyan-glow: rgba(0, 229, 204, .4);
+      --text-primary: #f0f4ff;
+      --text-secondary: #8892b0;
+      --text-muted: #5a6480;
+      --border-subtle: rgba(136, 146, 176, .15);
+      --border-accent: rgba(255, 77, 77, .3);
+      --surface-card: rgba(10, 15, 26, .65);
+      --surface-card-strong: rgba(10, 15, 26, .8);
+      --surface-overlay: rgba(0, 0, 0, .3);
+      --surface-interactive: rgba(255, 255, 255, .1);
+      --surface-interactive-hover: rgba(255, 255, 255, .2);
+      --surface-coral-soft: rgba(255, 77, 77, .15);
+      --surface-cyan-soft: rgba(0, 229, 204, .15);
+      --shadow-coral-soft: rgba(255, 77, 77, .15);
+      --shadow-coral-mid: rgba(255, 77, 77, .25);
+      --shadow-coral-strong: rgba(255, 77, 77, .35);
+      --shadow-cyan-soft: rgba(0, 229, 204, .15);
+      --hero-title-start: #f0f4ff;
+      --hero-title-end: #00e5cc;
+      --logo-gradient-start: #ff4d4d;
+      --logo-gradient-end: #991b1b;
+      --logo-glow: rgba(255, 77, 77, .4);
+      --logo-glow-hover: rgba(0, 229, 204, .6);
+      --font-display: "Clash Display", system-ui, sans-serif;
+      --font-body: "Satoshi", system-ui, sans-serif;
+      --font-mono: "SF Mono", "Fira Code", "JetBrains Mono", monospace;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    ::selection { background: var(--coral-bright); color: var(--bg-deep); }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--text-muted); border-radius: 3px; }
+
+    /* ─── STARS & NEBULA (from OpenClaw.ai) ─── */
+    .stars {
+      position: fixed; inset: 0;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255,255,255,.8), transparent),
+        radial-gradient(2px 2px at 40px 70px, rgba(255,255,255,.5), transparent),
+        radial-gradient(1px 1px at 90px 40px, rgba(255,255,255,.6), transparent),
+        radial-gradient(2px 2px at 130px 80px, rgba(255,255,255,.4), transparent),
+        radial-gradient(1px 1px at 160px 120px, rgba(255,255,255,.7), transparent),
+        radial-gradient(2px 2px at 200px 60px, rgba(0,229,204,.6), transparent),
+        radial-gradient(1px 1px at 250px 150px, rgba(255,255,255,.5), transparent),
+        radial-gradient(2px 2px at 300px 40px, rgba(255,77,77,.4), transparent);
+      background-size: 350px 200px;
+      animation: twinkle 8s ease-in-out infinite alternate;
+      pointer-events: none; z-index: 0;
+    }
+
+    @keyframes twinkle {
+      0% { opacity: .6; }
+      100% { opacity: 1; }
+    }
+
+    .nebula {
+      position: fixed; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 20%, rgba(255,77,77,.12), transparent 50%),
+        radial-gradient(ellipse 60% 60% at 80% 30%, rgba(0,229,204,.08), transparent 50%),
+        radial-gradient(ellipse 90% 70% at 50% 90%, rgba(255,77,77,.06), transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    section { padding: 80px 0; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 14px 0;
+      background: rgba(5, 8, 16, .75);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    nav .container {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; color: var(--text-primary);
+      font-family: var(--font-display); font-weight: 600; font-size: 1.1rem;
+    }
+
+    .nav-logo-icon {
+      width: 30px; height: 30px;
+    }
+
+    .nav-logo-icon svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 0 8px var(--logo-glow));
+    }
+
+    .nav-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 22px;
+      background: linear-gradient(135deg, var(--coral-bright) 0%, var(--coral-dark) 100%);
+      color: #fff; border: none; border-radius: 10px;
+      font-family: var(--font-display); font-size: .9rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 4px 20px var(--shadow-coral-mid);
+    }
+
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--shadow-coral-strong);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .lobster-icon {
+      width: 100px; height: 100px;
+      margin-bottom: 24px;
+      animation: fadeInUp .8s ease-out both;
+    }
+
+    .lobster-icon svg {
+      width: 100%; height: 100%;
+      filter: drop-shadow(0 0 20px var(--logo-glow));
+      transition: filter .3s ease;
+    }
+
+    .lobster-icon:hover svg {
+      filter: drop-shadow(0 0 30px var(--logo-glow-hover));
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 10vw, 4.5rem);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      margin-bottom: 12px;
+      animation: fadeInUp .8s ease-out .1s both;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, var(--hero-title-start) 0%, var(--coral-bright) 52%, var(--hero-title-end) 100%);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 6s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .hero-tagline {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 500;
+      color: var(--coral-bright);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      animation: fadeInUp .8s ease-out .15s both;
+    }
+
+    .hero-description {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 680px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+      animation: fadeInUp .8s ease-out .3s both;
+    }
+
+    .hero-cta-row {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+      animation: fadeInUp .8s ease-out .45s both;
+    }
+
+    .hero-btn {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 24px 32px;
+      border-radius: 16px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-card);
+      backdrop-filter: blur(12px);
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      min-width: 160px;
+    }
+
+    .hero-btn:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-accent);
+      box-shadow: 0 12px 40px var(--shadow-coral-soft), inset 0 1px 0 rgba(255,255,255,.05);
+    }
+
+    .hero-btn-icon {
+      width: 28px; height: 28px;
+      color: var(--coral-bright);
+    }
+
+    .hero-btn-label {
+      font-family: var(--font-display);
+      font-weight: 600; font-size: 1rem;
+    }
+
+    .hero-btn-sub {
+      font-size: .8rem; color: var(--text-muted);
+    }
+
+    /* ─── SECTION HEADERS ─── */
+    .section-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem; font-weight: 600;
+    }
+
+    .claw-accent {
+      color: var(--coral-bright); font-weight: 700;
+    }
+
+    /* ─── TESTIMONIALS ─── */
+    .testimonials { padding: 60px 0; overflow: hidden; }
+
+    .testimonial-track-wrapper {
+      position: relative;
+      margin-top: 24px;
+    }
+
+    .testimonial-track-wrapper::before,
+    .testimonial-track-wrapper::after {
+      content: ''; position: absolute; top: 0; bottom: 0;
+      width: 80px; z-index: 2; pointer-events: none;
+    }
+
+    .testimonial-track-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--bg-deep), transparent);
+    }
+
+    .testimonial-track-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--bg-deep), transparent);
+    }
+
+    .testimonial-track {
+      display: flex; gap: 16px;
+      animation: scrollTestimonials 60s linear infinite;
+      width: max-content;
+    }
+
+    .testimonial-track:hover { animation-play-state: paused; }
+
+    @keyframes scrollTestimonials {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .testimonial-card {
+      flex-shrink: 0; width: 380px;
+      padding: 24px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-accent);
+      box-shadow: 0 12px 40px var(--shadow-coral-soft);
+    }
+
+    .testimonial-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--logo-gradient-start), var(--logo-gradient-end));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: .8rem; color: #fff; flex-shrink: 0;
+    }
+
+    .testimonial-name {
+      font-family: var(--font-display);
+      font-size: .9rem; font-weight: 600;
+    }
+
+    .testimonial-handle {
+      font-size: .8rem; color: var(--text-muted);
+    }
+
+    .testimonial-card p {
+      font-size: .9rem; color: var(--text-secondary); line-height: 1.65;
+    }
+
+    /* Row 2 */
+    .testimonial-track-2 {
+      display: flex; gap: 16px;
+      animation: scrollTestimonialsReverse 55s linear infinite;
+      width: max-content;
+      margin-top: 16px;
+    }
+
+    .testimonial-track-2:hover { animation-play-state: paused; }
+
+    @keyframes scrollTestimonialsReverse {
+      0% { transform: translateX(-50%); }
+      100% { transform: translateX(0); }
+    }
+
+    /* ─── HOW IT WORKS ─── */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .step-card {
+      padding: 24px;
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .step-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-accent);
+      box-shadow: 0 12px 40px var(--shadow-coral-soft);
+    }
+
+    .step-number {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--surface-coral-soft);
+      color: var(--coral-bright);
+      font-family: var(--font-display);
+      font-weight: 700; font-size: .95rem;
+      margin-bottom: 16px;
+    }
+
+    .step-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem; font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .step-card p {
+      font-size: .9rem; color: var(--text-secondary); line-height: 1.6;
+    }
+
+    .step-tag {
+      display: inline-block; margin-top: 14px;
+      padding: 4px 12px;
+      background: var(--surface-coral-soft);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: .75rem; color: var(--coral-bright);
+      font-family: var(--font-display); font-weight: 500;
+    }
+
+    /* ─── PRICING ─── */
+    .pricing-card {
+      max-width: 520px; margin: 24px auto 0;
+      padding: 40px;
+      background: var(--surface-card-strong);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      text-align: center;
+      position: relative; overflow: hidden;
+    }
+
+    .pricing-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(135deg, var(--coral-bright), var(--coral-dark));
+    }
+
+    .pricing-tag {
+      display: inline-block; padding: 5px 14px;
+      background: var(--surface-coral-soft);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      font-size: .75rem; color: var(--coral-bright);
+      font-family: var(--font-display); font-weight: 600;
+      text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: 24px;
+    }
+
+    .pricing-amounts {
+      display: flex; align-items: center; justify-content: center;
+      gap: 28px; margin-bottom: 8px; flex-wrap: wrap;
+    }
+
+    .pricing-amount { text-align: center; }
+
+    .pricing-amount .price {
+      font-family: var(--font-display);
+      font-size: 2.6rem; font-weight: 700; letter-spacing: -.03em;
+    }
+
+    .pricing-amount .price-label {
+      font-size: .85rem; color: var(--text-muted); margin-top: 2px;
+    }
+
+    .pricing-divider {
+      width: 1px; height: 56px; background: var(--border-subtle);
+    }
+
+    .pricing-tagline {
+      font-size: 1rem; color: var(--text-secondary);
+      margin: 16px 0 28px; font-style: italic;
+    }
+
+    .pricing-features {
+      list-style: none; text-align: left; margin-bottom: 32px;
+    }
+
+    .pricing-features li {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 0; font-size: .9rem; color: var(--text-secondary);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .pricing-features li:last-child { border-bottom: none; }
+
+    .pricing-features li svg { flex-shrink: 0; color: var(--cyan-bright); }
+
+    .pricing-cta {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 36px; width: 100%; justify-content: center;
+      background: linear-gradient(135deg, var(--coral-bright) 0%, var(--coral-dark) 100%);
+      color: #fff; border: none; border-radius: 12px;
+      font-family: var(--font-display); font-size: 1rem; font-weight: 600;
+      cursor: pointer; text-decoration: none;
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      box-shadow: 0 4px 20px var(--shadow-coral-mid);
+    }
+
+    .pricing-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px var(--shadow-coral-strong);
+    }
+
+    /* ─── QUALIFICATION FORM ─── */
+    .form-container {
+      max-width: 580px; margin: 24px auto 0;
+      padding: 40px;
+      background: var(--surface-card-strong);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      position: relative; overflow: hidden;
+    }
+
+    .form-container::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(135deg, var(--coral-bright), var(--coral-dark));
+    }
+
+    .form-progress {
+      display: flex; gap: 6px; margin-bottom: 32px;
+    }
+
+    .form-progress-bar {
+      flex: 1; height: 3px; border-radius: 2px;
+      background: var(--border-subtle);
+      transition: background .4s;
+    }
+
+    .form-progress-bar.active {
+      background: linear-gradient(135deg, var(--coral-bright), var(--coral-dark));
+    }
+
+    .form-step {
+      display: none;
+      animation: fadeStep .4s ease;
+    }
+
+    .form-step.active { display: block; }
+
+    @keyframes fadeStep {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-step-label {
+      font-size: .78rem; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: .1em;
+      margin-bottom: 6px;
+    }
+
+    .form-step h3 {
+      font-family: var(--font-display);
+      font-size: 1.3rem; font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .form-select-wrapper { position: relative; }
+
+    .form-select {
+      width: 100%; padding: 14px 18px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-family: var(--font-body); font-size: .95rem;
+      cursor: pointer; appearance: none;
+      transition: border-color .2s;
+    }
+
+    .form-select:focus {
+      outline: none;
+      border-color: var(--coral-bright);
+      box-shadow: 0 0 0 3px rgba(255, 77, 77, .15);
+    }
+
+    .form-select-wrapper::after {
+      content: ''; position: absolute; right: 16px; top: 50%;
+      transform: translateY(-50%);
+      width: 0; height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 5px solid var(--text-muted);
+      pointer-events: none;
+    }
+
+    .form-error {
+      color: var(--coral-bright); font-size: .8rem;
+      margin-top: 6px; display: none;
+    }
+
+    .form-error.visible { display: block; }
+
+    .form-actions {
+      display: flex; gap: 10px; margin-top: 24px;
+    }
+
+    .form-btn {
+      padding: 14px 24px; border-radius: 12px;
+      font-family: var(--font-display); font-size: .95rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; border: none;
+    }
+
+    .form-btn-primary {
+      flex: 1;
+      background: linear-gradient(135deg, var(--coral-bright) 0%, var(--coral-dark) 100%);
+      color: #fff;
+      box-shadow: 0 4px 20px var(--shadow-coral-mid);
+    }
+
+    .form-btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 30px var(--shadow-coral-strong);
+    }
+
+    .form-btn-secondary {
+      background: var(--bg-elevated);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .form-btn-secondary:hover {
+      border-color: var(--border-accent);
+      color: var(--text-primary);
+    }
+
+    .calendar-container {
+      display: none;
+      animation: fadeStep .5s ease;
+    }
+
+    .calendar-container.active { display: block; }
+
+    .calendar-success { text-align: center; margin-bottom: 24px; }
+
+    .calendar-success-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: var(--surface-cyan-soft);
+      border: 1px solid rgba(0, 229, 204, .25);
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .calendar-success h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem; font-weight: 600; margin-bottom: 6px;
+    }
+
+    .calendar-success p {
+      color: var(--text-secondary); font-size: .9rem;
+    }
+
+    .calendar-embed {
+      width: 100%; height: 550px;
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      background: var(--bg-elevated);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 32px 0;
+      border-top: 1px solid var(--border-subtle);
+      text-align: center;
+    }
+
+    footer p { font-size: .85rem; color: var(--text-muted); }
+
+    footer a {
+      color: var(--coral-bright); text-decoration: none;
+      font-weight: 500; transition: color .2s;
+    }
+
+    footer a:hover { color: var(--cyan-bright); }
+
+    /* ─── FADE IN ─── */
+    .fade-in {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      section { padding: 60px 0; }
+      .steps-grid { grid-template-columns: 1fr; gap: 12px; }
+      .pricing-card { padding: 28px 20px; }
+      .pricing-amounts { flex-direction: column; gap: 12px; }
+      .pricing-divider { width: 60px; height: 1px; }
+      .form-container { padding: 28px 20px; }
+      .testimonial-card { width: 300px; padding: 20px; }
+      .hero-btn { min-width: 140px; padding: 18px 20px; }
+      .form-actions { flex-direction: column; }
+      .nav-cta span.hide-mobile { display: none; }
+    }
+
+    @media (max-width: 480px) {
+      .container { padding: 0 16px; }
+      .hero-cta-row { flex-direction: column; align-items: center; }
+      .hero-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="stars"></div>
+  <div class="nebula"></div>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <a href="#" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 10 C30 10 15 35 15 55 C15 75 30 95 45 100 L45 110 L55 110 L55 100 C55 100 60 102 65 100 L65 110 L75 110 L75 100 C90 95 105 75 105 55 C105 35 90 10 60 10Z" fill="url(#lg)"/>
+            <path d="M20 45 C5 40 0 50 5 60 C10 70 20 65 25 55 C28 48 25 45 20 45Z" fill="url(#lg)"/>
+            <path d="M100 45 C115 40 120 50 115 60 C110 70 100 65 95 55 C92 48 95 45 100 45Z" fill="url(#lg)"/>
+            <path d="M45 15 Q35 5 30 8" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round"/>
+            <path d="M75 15 Q85 5 90 8" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="45" cy="35" r="6" fill="#050810"/>
+            <circle cx="75" cy="35" r="6" fill="#050810"/>
+            <circle cx="46" cy="34" r="2" fill="#00e5cc"/>
+            <circle cx="76" cy="34" r="2" fill="#00e5cc"/>
+            <defs><linearGradient id="lg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff4d4d"/><stop offset="100%" stop-color="#991b1b"/></linearGradient></defs>
+          </svg>
+        </div>
+        OpenClaw DFY
+      </a>
+      <a href="#qualify" class="nav-cta">Book a Call →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container" style="display:flex;flex-direction:column;align-items:center;text-align:center;">
+      <div class="lobster-icon">
+        <svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M60 10 C30 10 15 35 15 55 C15 75 30 95 45 100 L45 110 L55 110 L55 100 C55 100 60 102 65 100 L65 110 L75 110 L75 100 C90 95 105 75 105 55 C105 35 90 10 60 10Z" fill="url(#lg2)"/>
+          <path d="M20 45 C5 40 0 50 5 60 C10 70 20 65 25 55 C28 48 25 45 20 45Z" fill="url(#lg2)"/>
+          <path d="M100 45 C115 40 120 50 115 60 C110 70 100 65 95 55 C92 48 95 45 100 45Z" fill="url(#lg2)"/>
+          <path d="M45 15 Q35 5 30 8" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round"/>
+          <path d="M75 15 Q85 5 90 8" stroke="#ff4d4d" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="45" cy="35" r="6" fill="#050810"/>
+          <circle cx="75" cy="35" r="6" fill="#050810"/>
+          <circle cx="46" cy="34" r="2" fill="#00e5cc"/>
+          <circle cx="76" cy="34" r="2" fill="#00e5cc"/>
+          <defs><linearGradient id="lg2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff4d4d"/><stop offset="100%" stop-color="#991b1b"/></linearGradient></defs>
+        </svg>
+      </div>
+      <h1 class="hero-title"><span>OpenClaw DFY</span></h1>
+      <p class="hero-tagline">Your Own 24/7 AI Employee</p>
+      <p class="hero-description">We build, install, and manage a fully autonomous AI assistant for your business. It handles your inbox, CRM, scheduling, reports, and follow-ups — connected to all your existing tools. You don't touch any tech.</p>
+      <div class="hero-cta-row">
+        <a href="#qualify" class="hero-btn">
+          <svg class="hero-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span class="hero-btn-label">Book a Call</span>
+          <span class="hero-btn-sub">Free evaluation</span>
+        </a>
+        <a href="#how-it-works" class="hero-btn">
+          <svg class="hero-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+          <span class="hero-btn-label">How It Works</span>
+          <span class="hero-btn-sub">3 simple steps</span>
+        </a>
+        <a href="#pricing" class="hero-btn">
+          <svg class="hero-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <span class="hero-btn-label">Pricing</span>
+          <span class="hero-btn-sub">Simple & transparent</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span class="claw-accent">⟩</span> What People Say</h2>
+      </div>
+    </div>
+    <div class="testimonial-track-wrapper">
+      <div class="testimonial-track" id="track1"></div>
+    </div>
+    <div class="testimonial-track-wrapper" style="margin-top:0">
+      <div class="testimonial-track-2" id="track2"></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section id="how-it-works" class="fade-in">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span class="claw-accent">⟩</span> How It Works</h2>
+      </div>
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Book a Call</h3>
+          <p>We learn your business, workflows, and pain points. We identify the highest-impact automations for your use case.</p>
+          <span class="step-tag">30-minute call</span>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>We Build It</h3>
+          <p>Our team builds a custom AI assistant connected to your tools — Gmail, Slack, CRM, calendars, and more. Fully configured and tested.</p>
+          <span class="step-tag">1 week setup</span>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>You Use It</h3>
+          <p>Message your AI from Slack, WhatsApp, or Telegram. It handles your tasks autonomously. We manage and improve it continuously.</p>
+          <span class="step-tag">Ongoing support</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="fade-in">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span class="claw-accent">⟩</span> Pricing</h2>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-tag">All-Inclusive</div>
+        <div class="pricing-amounts">
+          <div class="pricing-amount">
+            <div class="price">$5,000</div>
+            <div class="price-label">One-time setup</div>
+          </div>
+          <div class="pricing-divider"></div>
+          <div class="pricing-amount">
+            <div class="price">$1,000</div>
+            <div class="price-label">Per month, ongoing</div>
+          </div>
+        </div>
+        <div class="pricing-tagline">"Cheaper than any hire. Smarter than any tool."</div>
+        <ul class="pricing-features">
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Custom AI assistant built for your workflows</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Connected to all your existing tools</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>24/7 autonomous operation</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Ongoing management &amp; improvements</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Slack, WhatsApp, or Telegram access</li>
+          <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Cancel anytime, no lock-in</li>
+        </ul>
+        <a href="#qualify" class="pricing-cta">Get Started →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUALIFICATION FORM -->
+  <section id="qualify" class="fade-in">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title"><span class="claw-accent">⟩</span> Let's See If We're a Good Fit</h2>
+      </div>
+      <div class="form-container" id="formContainer">
+        <div class="form-progress">
+          <div class="form-progress-bar active" id="prog1"></div>
+          <div class="form-progress-bar" id="prog2"></div>
+          <div class="form-progress-bar" id="prog3"></div>
+        </div>
+
+        <div class="form-step active" id="step1">
+          <div class="form-step-label">Step 1 of 3</div>
+          <h3>What's your business's annual revenue?</h3>
+          <div class="form-select-wrapper">
+            <select class="form-select" id="annualRevenue">
+              <option value="" disabled selected>Select your revenue range</option>
+              <option value="Under $100K">Under $100K</option>
+              <option value="$100K – $250K">$100K – $250K</option>
+              <option value="$250K – $500K">$250K – $500K</option>
+              <option value="$500K – $1M">$500K – $1M</option>
+              <option value="$1M – $5M">$1M – $5M</option>
+              <option value="$5M+">$5M+</option>
+            </select>
+          </div>
+          <div class="form-error" id="error1">Please select your revenue range</div>
+          <div class="form-actions">
+            <button class="form-btn form-btn-primary" onclick="nextStep(1)">Continue →</button>
+          </div>
+        </div>
+
+        <div class="form-step" id="step2">
+          <div class="form-step-label">Step 2 of 3</div>
+          <h3>Number of full-time employees?</h3>
+          <div class="form-select-wrapper">
+            <select class="form-select" id="employees">
+              <option value="" disabled selected>Select your team size</option>
+              <option value="Just me">Just me</option>
+              <option value="Me + vendors">Me + vendors</option>
+              <option value="2–4">2 – 4</option>
+              <option value="5–9">5 – 9</option>
+              <option value="10–19">10 – 19</option>
+              <option value="20–49">20 – 49</option>
+              <option value="50–99">50 – 99</option>
+              <option value="100–249">100 – 249</option>
+              <option value="250–500">250 – 500</option>
+            </select>
+          </div>
+          <div class="form-error" id="error2">Please select your team size</div>
+          <div class="form-actions">
+            <button class="form-btn form-btn-secondary" onclick="prevStep(2)">Back</button>
+            <button class="form-btn form-btn-primary" onclick="nextStep(2)">Continue →</button>
+          </div>
+        </div>
+
+        <div class="form-step" id="step3">
+          <div class="form-step-label">Step 3 of 3</div>
+          <h3>Are you a solo owner or have partners?</h3>
+          <div class="form-select-wrapper">
+            <select class="form-select" id="ownership">
+              <option value="" disabled selected>Select your role</option>
+              <option value="Majority owner (51%+)">I'm a majority owner (over 51%)</option>
+              <option value="50/50 partner">I'm a 50/50 partner</option>
+              <option value="Minority owner (under 50%)">I'm a minority owner (under 50%)</option>
+              <option value="Employee">I'm an employee</option>
+            </select>
+          </div>
+          <div class="form-error" id="error3">Please select your role</div>
+          <div class="form-actions">
+            <button class="form-btn form-btn-secondary" onclick="prevStep(3)">Back</button>
+            <button class="form-btn form-btn-primary" onclick="submitForm()">Show Me Available Times →</button>
+          </div>
+        </div>
+
+        <div class="calendar-container" id="calendarContainer">
+          <div class="calendar-success">
+            <div class="calendar-success-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#00e5cc" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+            </div>
+            <h3>You're a great fit!</h3>
+            <p>Pick a time that works for you and we'll prepare a custom plan for your business.</p>
+          </div>
+          <iframe class="calendar-embed" src="https://cal.com" title="Book your evaluation call" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Powered by <a href="https://openclaw.ai" target="_blank" rel="noopener">OpenClaw</a></p>
+    </div>
+  </footer>
+
+  <script>
+    // ─── TESTIMONIALS ───
+    const testimonials = [
+      { handle: "@jonahships_", text: "Setup @openclaw by @steipete yesterday. All I have to say is, wow. It's the fact that claw can just keep building upon itself just by talking to it in discord is crazy. The future is already here" },
+      { handle: "@AryehDubois", text: "Tried Claw by @steipete. I tried to build my own AI assistant bots before, and I am very impressed how many hard things Claw gets right. Persistent memory, persona onboarding, comms integration, heartbeats." },
+      { handle: "@markjaquith", text: "I've been saying for like six months that even if LLMs suddenly stopped improving, we could spend *years* discovering new transformative uses. @openclaw feels like that kind of leap forward. Incredible experience." },
+      { handle: "@danpeguine", text: "Why @openclaw is nuts: your context and skills live on YOUR computer, not a walled garden. It's open source. 'Personal AI assistant' undersells it — it's a company assistant, family assistant, team tool." },
+      { handle: "@nateliason", text: "Yeah this was 1,000% worth it. Separate Claude subscription + Claw, managing Claude Code / Codex sessions I can kick off anywhere, autonomously running tests on my app... The future is here." },
+      { handle: "@nathanclark_", text: "A smart model with eyes and hands at a desk with keyboard and mouse. You message it like a coworker and it does everything a person could do with that Mac mini. That's what you have now." },
+      { handle: "@nickvasiles", text: "OpenClaw is a 24/7 assistant with access to its own computer. What if there were ten, or a hundred, or a thousand?? All running 24/7 in the cloud... That's the future, and we're living it today." },
+      { handle: "@davemorin", text: "At this point I don't even know what to call @openclaw. It is something new. After a few weeks in with it, this is the first time I have felt like I am living in the future since the launch of ChatGPT." },
+      { handle: "@therno", text: "It's running my company." },
+      { handle: "@lycfyi", text: "After years of AI hype, I thought nothing could faze me. Then I installed @openclaw. From nervous 'hi what can you do?' to full throttle - design, code review, taxes, PM, content pipelines... The endgame of digital employees is here." },
+      { handle: "@rovensky", text: "It will actually be the thing that nukes a ton of startups, not ChatGPT. The fact that it's hackable and hostable on-prem will make sure tech like this DOMINATES conventional SaaS." },
+      { handle: "@stolinski", text: "Dang, I had my OpenClaw write me custom meditations, then have automatic TTS, combining with generated ambient audio. Kinda rips." },
+      { handle: "@kylezantos", text: "Today was one of those days that I sort of ran to my computer after dropping off my toddler at daycare. Because I got part-way through setting up @openclaw last night and it's a portal to a new reality." },
+      { handle: "@SedRicKCZ", text: "@openclaw is absolute game changer for me. The amount of things I done from my phone just during my breakfast is absolutely breathtaking." },
+      { handle: "@tobi_bsf", text: "Using @openclaw for a week and it genuinely feels like early AGI. The gap between 'what I can imagine' and 'what actually works' has never been smaller." },
+      { handle: "@dreetje", text: "I am so addicted to @openclaw. It is getting essential to my daily life. It checks, organizes, reminds, it's amazing. And it's like a good friend. Crazy." },
+      { handle: "@conradsagewiz", text: "I'm literally on my phone in a telegram chat and it's communicating with codex cli on my computer creating detailed spec files while out on a walk with my dog. 🤯 Wtffff" },
+      { handle: "@mirthtime", text: "My @openclaw just called my phone and spoke to me with an aussie accent from @elevenlabsio. This is ridiculous" },
+    ];
+
+    function makeCard(t) {
+      const initials = t.handle.replace('@','').slice(0,2).toUpperCase();
+      return `<div class="testimonial-card">
+        <div class="testimonial-header">
+          <div class="testimonial-avatar">${initials}</div>
+          <div>
+            <div class="testimonial-name">${t.handle}</div>
+          </div>
+        </div>
+        <p>"${t.text}"</p>
+      </div>`;
+    }
+
+    const row1 = testimonials.slice(0, 9);
+    const row2 = testimonials.slice(9);
+    document.getElementById('track1').innerHTML = [...row1, ...row1].map(makeCard).join('');
+    document.getElementById('track2').innerHTML = [...row2, ...row2].map(makeCard).join('');
+
+    // ─── FORM ───
+    function showStep(n) {
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.getElementById('step'+n).classList.add('active');
+      for (let i = 1; i <= 3; i++) document.getElementById('prog'+i).classList.toggle('active', i <= n);
+    }
+
+    function nextStep(from) {
+      const ids = { 1: 'annualRevenue', 2: 'employees' };
+      const el = document.getElementById(ids[from]);
+      if (!el.value) { document.getElementById('error'+from).classList.add('visible'); return; }
+      document.getElementById('error'+from).classList.remove('visible');
+      save(); showStep(from + 1);
+    }
+
+    function prevStep(from) { showStep(from - 1); }
+
+    function submitForm() {
+      const el = document.getElementById('ownership');
+      if (!el.value) { document.getElementById('error3').classList.add('visible'); return; }
+      document.getElementById('error3').classList.remove('visible');
+      save();
+      document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+      document.querySelector('.form-progress').style.display = 'none';
+      document.getElementById('calendarContainer').classList.add('active');
+    }
+
+    function save() {
+      localStorage.setItem('openclaw_dfy_qual', JSON.stringify({
+        annualRevenue: document.getElementById('annualRevenue').value,
+        employees: document.getElementById('employees').value,
+        ownership: document.getElementById('ownership').value,
+        ts: new Date().toISOString()
+      }));
+    }
+
+    function load() {
+      try {
+        const d = JSON.parse(localStorage.getItem('openclaw_dfy_qual'));
+        if (!d) return;
+        if (d.annualRevenue) document.getElementById('annualRevenue').value = d.annualRevenue;
+        if (d.employees) document.getElementById('employees').value = d.employees;
+        if (d.ownership) document.getElementById('ownership').value = d.ownership;
+      } catch(e) {}
+    }
+    load();
+
+    // ─── SCROLL ANIMATIONS ───
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
