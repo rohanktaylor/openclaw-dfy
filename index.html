@@ -448,6 +448,76 @@
       .features-grid { grid-template-columns: 1fr; gap: 12px; }
     }
 
+    /* ─── FEATURES GRID ─── */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .feature-card {
+      display: block;
+      padding: 20px;
+      border-radius: 14px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-card);
+      backdrop-filter: blur(12px);
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--coral-bright);
+      box-shadow: 0 12px 40px rgba(255, 77, 77, .2);
+    }
+
+    .feature-icon {
+      margin-bottom: 12px;
+    }
+
+    .feature-title {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .feature-desc {
+      font-size: .85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    /* ─── INTEGRATIONS ─── */
+    .integrations-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .integration-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-subtle);
+      background: var(--surface-card);
+      backdrop-filter: blur(8px);
+      font-size: .85rem;
+      color: var(--text-secondary);
+      transition: all .25s cubic-bezier(.4,0,.2,1);
+      cursor: default;
+    }
+
+    .integration-pill:hover {
+      border-color: var(--coral-bright);
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(255, 77, 77, .2);
+    }
+
     /* ─── HOW IT WORKS ─── */
     .steps-grid {
       display: grid;
