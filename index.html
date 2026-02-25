@@ -1170,7 +1170,7 @@
           <script type="text/javascript">
             (function (C, A, L) { let p = function (a, ar) { a.q.push(ar); }; let d = C.document; C.Cal = C.Cal || function () { let cal = C.Cal; let ar = arguments; if (!cal.loaded) { cal.ns = {}; cal.q = cal.q || []; d.head.appendChild(d.createElement("script")).src = A; cal.loaded = true; } if (ar[0] === L) { const api = function () { p(api, arguments); }; const namespace = ar[1]; api.q = api.q || []; if(typeof namespace === "string"){cal.ns[namespace] = cal.ns[namespace] || api;p(cal.ns[namespace], ar);p(cal, ["initNamespace", namespace]);} else p(cal, ar); return;} p(cal, ar); }; })(window, "https://app.cal.com/embed/embed.js", "init");
             Cal("init", "openclaw-integration-meeting", {origin:"https://app.cal.com"});
-            Cal.ns["openclaw-integration-meeting"]("inline", { elementOrSelector:"#my-cal-inline-openclaw-integration-meeting", config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"}, calLink: "ai-4ivm2h/openclaw-integration-meeting" });
+            Cal.ns["openclaw-integration-meeting"]("inline", { elementOrSelector:"#my-cal-inline-openclaw-integration-meeting", config: {"layout":"month_view","useSlotsViewOnSmallScreen":"true"}, calLink: "openclawdfy/openclaw-integration-meeting" });
             Cal.ns["openclaw-integration-meeting"]("ui", {"hideEventTypeDetails":false,"layout":"month_view"});
           </script>
         </div>
@@ -1248,6 +1248,23 @@
       if (!el.value) { document.getElementById('error3').classList.add('visible'); return; }
       document.getElementById('error3').classList.remove('visible');
       save();
+
+      // Pass Q&A answers into the Cal.com booking as notes
+      const revenue = document.getElementById('annualRevenue').value;
+      const employees = document.getElementById('employees').value;
+      const ownership = document.getElementById('ownership').value;
+      const notes = `Qualification Answers:\n• Annual Revenue: ${revenue}\n• Employees: ${employees}\n• Ownership: ${ownership}`;
+
+      // Re-render Cal embed with prefilled notes
+      const calContainer = document.getElementById('my-cal-inline-openclaw-integration-meeting');
+      calContainer.innerHTML = '';
+      Cal.ns["openclaw-integration-meeting"]("inline", {
+        elementOrSelector: "#my-cal-inline-openclaw-integration-meeting",
+        config: { "layout": "month_view", "useSlotsViewOnSmallScreen": "true", "notes": notes },
+        calLink: "openclawdfy/openclaw-integration-meeting"
+      });
+      Cal.ns["openclaw-integration-meeting"]("ui", {"hideEventTypeDetails": false, "layout": "month_view"});
+
       document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
       document.querySelector('.form-progress').style.display = 'none';
       document.getElementById('calendarContainer').classList.add('active');
